@@ -1,4 +1,10 @@
+#include <stdarg.h>
+#include <unistd.h>
 #include "main.h"
+void print_buffer(char buffer[], int *buff_ind);
+
+
+
 /**
  * _printf - Printf function
  * @format: format.
@@ -9,7 +15,7 @@ int _printf(const char *format, ...)
 	int i, printed = 0, printed_chars = 0;
 	int flags, width, precision, size, buff_ind = 0;
 	va_list list;
-	char buffer[BUFF-SIZE];
+	char buffer[BUFF_SIZE];
 
 	if (format == NULL)
 		return (-1);
@@ -26,21 +32,21 @@ int _printf(const char *format, ...)
 
 		flags = get_flags(format, &i);
 		width = get_width(format, &i, list);
-		precision = get_precision(format, &I, list);
+		precision = get_precision(format, &i, list);
 		size = get_size(format, &i);
-		i++
-	printed = handle_print(format, &I, list, buffer, flags, width, precision, size);
+		i++;
+	printed = handle_print(format, &i, list, buffer, flags, width, precision, size);
 	if (printed == -1)
 	return (-1);
 	}
-		printed_buffer(buffer, &buff_ind);
+		print_buffer(buffer, &buff_ind);
 	va_end(list);
-	return printed_chars
+	return printed_chars;
 }
 /**
  * print_buffer - Prints the contents of the buffer if it exist
  * @buffer: input value
- * @buff_ind: input value
+ * *buff_ind: input value
  */
 void print_buffer(char buffer[], int *buff_ind)
 {
