@@ -1,6 +1,12 @@
 #include "main.h"
 #define BUFF_SIZE 1024
 
+/**
+ * _printf - printf function
+ * @format: format
+ *
+ * Return: printed chars
+ */
 
 void print_buffer(char buffer[], int *buff_ind);
 
@@ -60,6 +66,11 @@ int _printf(const char *format, ...)
 	va_end(list);
 	return (printed_chars);
 }
+/**
+ * print_buffer - Prints the contents of the buffer if it exists
+ * @buffer: input value
+ * @buff_ind: input value
+ */
 void print_buffer(char buffer[], int *buff_ind)
 {
 	if (*buff_ind > 0)
