@@ -37,7 +37,7 @@ int _printf(const char *format, ...)
 				buffer[buff_ind++] = c;
 			}
 
-			else if (format[i] == 's')
+					else if (format[i] == 's')
 				{
 					char *str  = va_arg(list, char *);
 					int j;
