@@ -3,7 +3,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 
-
+#define BUFF_SIZE 1024
 
 #include "functions.h"
 #include <unistd.h>
