@@ -1,3 +1,6 @@
+#include <stdarg.h>
+#include <string.h>
+#include <unistd.h>
 #include "main.h"
 #define BUFF_SIZE 1024
 
@@ -7,87 +10,53 @@
  *
  * Return: printed chars
  */
-typedef struct 
-{
-	char *format;
-	int (*handler)(va_list, char *, int);
-} FormatHandler;
 
-int _write(const char *str, int len)
-{
-	return write(1, str, int len);
+int _write(const char *str, int len) {
+    return write(1, str, len);
 }
+
 int _printf(const char *format, ...) {
     if (format == NULL) {
-        return -1;  // Handle NULL format edge case
+        return -1;
     }
 
     va_list argp;
     int count = 0;
-    char buffer[BUFF_SIZE];
-    int buffer_index = 0;
 
     va_start(argp, format);
 
     while (*format) {
         if (*format != '%') {
-            buffer[buffer_index++] = *format++;
+            _write(format, 1);
             count++;
         } else {
             format++;
 
-            FormatHandler handlers[] = {
-                {"c", handle_char},
-                {"s", handle_string},
-                /* Add more format handlers as needed */
-            };
-
-            int found = 0;
-            for (size_t i = 0; i < sizeof(handlers) / sizeof(handlers[0]); i++) {
-                if (strncmp(format, handlers[i].format, strlen(handlers[i].format)) == 0) {
-                    found = 1;
-                    format += strlen(handlers[i].format);
-                    buffer_index = handlers[i].handler(argp, buffer, buffer_index);
-                    break;
+            if (*format == 'c') {
+                char c = va_arg(argp, int);
+                _write(&c, 1);
+                count++;
+            } else if (*format == 's') {
+                char *s = va_arg(argp, char *);
+                if (s == NULL) {
+                    _write("(null)", 6);
+                    count += 6;
+                } else {
+                    _write(s, strlen(s));
+                    count += strlen(s);
                 }
-            }
-
-            if (!found) {
-                buffer[buffer_index++] = '%';
+            } else if (*format == '%') {
+                _write("%", 1);
                 count++;
             }
         }
-
-        if (buffer_index >= BUFSIZE - 1) {
-            _write(buffer, buffer_index);
-            buffer_index = 0;
-        }
+        format++;
     }
- }
 
     va_end(argp);
-    if (buffer_index > 0) {
-        _write(buffer, buffer_index);
-    }
-
     return count;
 }
 
-int handle_char(va_list argp, char *buffer, int buffer_index) {
-    char c = va_arg(argp, int);
-    buffer[buffer_index++] = c;
-    return buffer_index;
-}
-
-int handle_string(va_list argp, char *buffer, int buffer_index) {
-    char *s = va_arg(argp, char *);
-    if (s == NULL) {
-        s = "(null)";  // Handle NULL string edge case
-    }
-    strcpy(buffer + buffer_index, s);
-    buffer_index += strlen(s);
-    return buffer_index;
-}
 
 void print_buffer(char buffer[], int *buff_ind);
 

@@ -6,6 +6,7 @@
 #include "functions.h"
 #include <unistd.h>
 int _printf(const char *format, ...);
+int _printf(const char *format, ...);
 void print_buffer(char buffer[], int *buff_ind);
 int (*handler)(va_list, char *, int);
 int _write(const char *str, int len);
