@@ -1,5 +1,4 @@
 #include "main.h"
-#define BUFF_SIZE 1024
 
 /**
  * _printf - printf function
@@ -7,13 +6,9 @@
  *
  * Return: printed chars
  */
-
-void print_buffer(char buffer[], int *buff_ind);
-
-
 int _printf(const char *format, ...)
 {
-	int i, printed_chars = 0, buff_ind = 0;
+	int i, printed_chars = 0, buff_ind = 0, len = 0;
 	va_list list;
 	char buffer[BUFF_SIZE];
 
@@ -51,14 +46,16 @@ int _printf(const char *format, ...)
 						buffer[buff_ind++] = str[j];
 					}
 				}
-				else if (format[i] == '%')
-				{
-					buffer[buff_ind++] = '%';
-				}
+			else if (format[i] == '%')
+			{
+				buffer[buff_ind++] = '%';
+				len++;
+			}
 		}
 		else
 		{
 			buffer[buff_ind++] = format[i];
+			len++;
 		}
 	}
 
