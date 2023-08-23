@@ -71,3 +71,53 @@ int handle_unknown(char specifier, char *buffer, int buffer_index)
 	buffer[buffer_index++] = specifier;
 	return buffer_index;
 }
+#include <stdlib.h> // For malloc and free
+
+char *itoa(int num)
+{
+    int sign = (num < 0) ? -1 : 1; // Store the sign of the number
+    num = abs(num); // Make the number positive
+
+    int num_digits = 1; // Count the number of digits in the number
+    int temp = num;
+    while (temp >= 10)
+    {
+        temp /= 10;
+        num_digits++;
+    }
+
+    // Allocate memory for the string
+    char *str = (char *)malloc((num_digits + 1) * sizeof(char));
+    if (str == NULL)
+        return NULL; // Memory allocation failed
+
+    // Convert the integer to string in reverse order
+    int i = 0;
+    while (num > 0)
+    {
+        str[i++] = num % 10 + '0';
+        num /= 10;
+    }
+
+    // Add the sign character if the original number was negative
+    if (sign == -1)
+        str[i++] = '-';
+
+    // Null-terminate the string
+    str[i] = '\0';
+
+    // Reverse the string to get the correct order
+    int start = 0;
+    int end = i - 1;
+    while (start < end)
+    {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        start++;
+        end--;
+    }
+
+    return str;
+}
+
