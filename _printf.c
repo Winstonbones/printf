@@ -38,13 +38,12 @@ int _printf(const char *format, ...)
 			size = get_size(format, &i);
 			++i;
 			printed = handle_print(format, &i, list, buffer,
-
 			flags, width, precision, size);
 			if (printed == -1)
 			return (-1);
 			printed_chars += printed;
 		}
-	}	
+	}
 	print_buffer(buffer, &buff_ind);
 	va_end(list);
 	return (printed_chars);
