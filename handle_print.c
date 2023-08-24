@@ -10,12 +10,19 @@
 * @width: get width.
 * @precision: Precision specification
 * @size: Size specifier
+* @print_char: responsible for printing a character
+* @print_string: responsible for brinting a string
+* @print_percent: responsible for printing a percent sign
+* @print_int: responsible for printing an integer
+* @print_binary: responsible for printing an integer in binary format
+*
 * Return: 1 or 2;
 */
 int handle_print(const char *fmt, int *ind, va_list list, char buffer[],
-int flags, int width, int precision, int size)
+			int flags, int width, int precision, int size)
 {
 	int i, unknow_len = 0, printed_chars = -1;
+
 	fmt_t fmt_types[] = {
 	{'c', print_char}, {'s', print_string}, {'%', print_percent},
 	{'i', print_int}, {'d', print_int}, {'b', print_binary},
